@@ -10,6 +10,7 @@ import { WeatherService } from '../services/weather.service';
 export class WeatherPage {
   weather: any;
   city: string = '';
+  notFound: boolean = false;
 
   constructor(
     private weatherService: WeatherService,
@@ -19,30 +20,39 @@ export class WeatherPage {
   ionViewWillEnter() {
     this.city = this.route.snapshot.paramMap.get('city') as string;
     this.getWeather();
-    console.log(this.weather);
   }
 
   getWeatherIcon() {
-    switch (this.weather.weather[0].main.toLowerCase()) {
-      case 'clouds':
-        return 'cloud-outline';
-      case 'rain':
-        return 'rainy-outline';
-      case 'snow':
-        return 'snow-outline';
-      case 'clear':
-        return 'sunny-outline';
-      default:
-        return 'partly-sunny-outline';
+    if (this.weather && this.weather.weather) {
+      switch (this.weather.weather[0].main.toLowerCase()) {
+        case 'clouds':
+          return 'cloud-outline';
+        case 'rain':
+          return 'rainy-outline';
+        case 'snow':
+          return 'snow-outline';
+        case 'clear':
+          return 'sunny-outline';
+        default:
+          return 'partly-sunny-outline';
+      }
     }
+    return 'partly-sunny-outline';
   }
 
   getWeather() {
     if (this.city) {
-      this.weatherService.getWeather(this.city).subscribe((data) => {
-        this.weather = data;
-        console.log(data);
-      });
+      this.weatherService.getWeather(this.city).subscribe(
+        (data) => {
+          this.weather = data;
+          this.notFound = false;
+        },
+        (error) => {
+          console.error(error);
+          this.weather = null;
+          this.notFound = true;
+        }
+      );
     }
   }
 }

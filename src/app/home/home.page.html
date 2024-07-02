@@ -7,39 +7,13 @@
   ></ion-searchbar>
 
   <div style="margin-top: 20px">
-    <ion-card class="card" (click)="goToWeatherPage('New York')">
+    <ion-card
+      *ngFor="let city of cities"
+      class="card"
+      (click)="goToWeatherPage(city)"
+    >
       <ion-card-header>
-        <ion-card-title>New York</ion-card-title>
-      </ion-card-header>
-      <ion-icon name="arrow-forward-outline"></ion-icon>
-    </ion-card>
-    <ion-card class="card" (click)="goToWeatherPage('London')">
-      <ion-card-header>
-        <ion-card-title>London</ion-card-title>
-      </ion-card-header>
-      <ion-icon name="arrow-forward-outline"></ion-icon>
-    </ion-card>
-    <ion-card class="card" (click)="goToWeatherPage('Tokyo')">
-      <ion-card-header>
-        <ion-card-title>Tokyo</ion-card-title>
-      </ion-card-header>
-      <ion-icon name="arrow-forward-outline"></ion-icon>
-    </ion-card>
-    <ion-card class="card" (click)="goToWeatherPage('Sydney')">
-      <ion-card-header>
-        <ion-card-title>Sydney</ion-card-title>
-      </ion-card-header>
-      <ion-icon name="arrow-forward-outline"></ion-icon>
-    </ion-card>
-    <ion-card class="card" (click)="goToWeatherPage('Paris')">
-      <ion-card-header>
-        <ion-card-title>Paris</ion-card-title>
-      </ion-card-header>
-      <ion-icon name="arrow-forward-outline"></ion-icon>
-    </ion-card>
-    <ion-card class="card" (click)="goToWeatherPage('Białystok')">
-      <ion-card-header>
-        <ion-card-title>Białystok</ion-card-title>
+        <ion-card-title>{{ city | capitalize }}</ion-card-title>
       </ion-card-header>
       <ion-icon name="arrow-forward-outline"></ion-icon>
     </ion-card>

@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 })
 export class HomePage {
   city: string = '';
+  cities: string[] = ['london', 'paris', 'washington', 'tokyo', 'sydney'];
 
   constructor(private router: Router) {}
 

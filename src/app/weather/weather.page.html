@@ -10,10 +10,23 @@
 <ion-content padding>
   <ion-card *ngIf="weather" class="weather-card">
     <ion-card-header>
-      <ion-card-title style="text-align: center"
-        >{{ weather.name }}</ion-card-title
-      >
+      <ion-card-title>{{ weather.name }}</ion-card-title>
     </ion-card-header>
+    <ion-icon
+      class="weather-icon"
+      [ngSwitch]="weather.weather[0].main"
+      style="color: black"
+    >
+      <ion-icon *ngSwitchCase="'Clouds'" name="cloud-outline"></ion-icon>
+      <ion-icon *ngSwitchCase="'Rain'" name="rainy-outline"></ion-icon>
+      <ion-icon *ngSwitchCase="'Snow'" name="snow-outline"></ion-icon>
+      <ion-icon *ngSwitchCase="'Clear'" name="sunny-outline"></ion-icon>
+      <ion-icon
+        *ngSwitchCase="'Thunderstorm'"
+        name="thunderstorm-outline"
+      ></ion-icon>
+      <ion-icon *ngSwitchDefault name="partly-sunny-outline"></ion-icon>
+    </ion-icon>
     <ion-card-content>
       <ion-grid>
         <ion-row>
@@ -35,4 +48,8 @@
       </ion-grid>
     </ion-card-content>
   </ion-card>
+
+  <div *ngIf="notFound" class="not-found-message">
+    <p style="text-align: center">City not found.</p>
+  </div>
 </ion-content>
