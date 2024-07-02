@@ -1,20 +1,47 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content padding>
+  <ion-searchbar
+    placeholder="Search for a city"
+    [debounce]="1000"
+    (ionInput)="handleInput($event)"
+    color="light"
+  ></ion-searchbar>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <div style="margin-top: 20px">
+    <ion-card class="card" (click)="goToWeatherPage('New York')">
+      <ion-card-header>
+        <ion-card-title>New York</ion-card-title>
+      </ion-card-header>
+      <ion-icon name="arrow-forward-outline"></ion-icon>
+    </ion-card>
+    <ion-card class="card" (click)="goToWeatherPage('London')">
+      <ion-card-header>
+        <ion-card-title>London</ion-card-title>
+      </ion-card-header>
+      <ion-icon name="arrow-forward-outline"></ion-icon>
+    </ion-card>
+    <ion-card class="card" (click)="goToWeatherPage('Tokyo')">
+      <ion-card-header>
+        <ion-card-title>Tokyo</ion-card-title>
+      </ion-card-header>
+      <ion-icon name="arrow-forward-outline"></ion-icon>
+    </ion-card>
+    <ion-card class="card" (click)="goToWeatherPage('Sydney')">
+      <ion-card-header>
+        <ion-card-title>Sydney</ion-card-title>
+      </ion-card-header>
+      <ion-icon name="arrow-forward-outline"></ion-icon>
+    </ion-card>
+    <ion-card class="card" (click)="goToWeatherPage('Paris')">
+      <ion-card-header>
+        <ion-card-title>Paris</ion-card-title>
+      </ion-card-header>
+      <ion-icon name="arrow-forward-outline"></ion-icon>
+    </ion-card>
+    <ion-card class="card" (click)="goToWeatherPage('Białystok')">
+      <ion-card-header>
+        <ion-card-title>Białystok</ion-card-title>
+      </ion-card-header>
+      <ion-icon name="arrow-forward-outline"></ion-icon>
+    </ion-card>
   </div>
 </ion-content>
