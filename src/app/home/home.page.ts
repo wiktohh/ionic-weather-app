@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { WeatherService } from '../services/weather.service';
 
 @Component({
   selector: 'app-home',
@@ -10,10 +11,28 @@ export class HomePage {
   city: string = '';
   cities: string[] = ['london', 'paris', 'washington', 'tokyo', 'sydney'];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private weatherService: WeatherService) {}
 
   handleInput(event: any) {
-    this.goToWeatherPage(event.target.value as string);
+    const city = event.target.value.toLowerCase() as string;
+    if (city) {
+      this.weatherService.getWeather(city).subscribe(
+        (data: any) => {
+          console.log(data);
+          if (!this.cities.includes(city)) {
+            this.cities.unshift(city);
+          } else {
+            const index = this.cities.indexOf(city);
+            this.cities.splice(index, 1);
+            this.cities.unshift(city);
+          }
+          this.goToWeatherPage(city);
+        },
+        (error: any) => {
+          console.error(error);
+        }
+      );
+    }
   }
 
   goToWeatherPage(city?: string) {
