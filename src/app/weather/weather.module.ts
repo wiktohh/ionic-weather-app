@@ -9,12 +9,7 @@ import { WeatherPageRoutingModule } from './weather-routing.module';
 import { WeatherPage } from './weather.page';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    WeatherPageRoutingModule
-  ],
-  declarations: [WeatherPage]
+  imports: [CommonModule, FormsModule, IonicModule, WeatherPageRoutingModule],
+  declarations: [WeatherPage],
 })
 export class WeatherPageModule {}
