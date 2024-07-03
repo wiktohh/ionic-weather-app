@@ -19,6 +19,7 @@ export class WeatherPage {
   //added by Pawel
   networkStatus: boolean = true;
   networkStatus$: Subscription = Subscription.EMPTY;
+  badNetwork: boolean = false;
 
   constructor(
     private weatherService: WeatherService,
@@ -64,17 +65,22 @@ export class WeatherPage {
   }
 
   getWeather() {
+    this.checkNetworkStatus();
     if (this.city) {
       this.weatherService.getWeather(this.city).subscribe(
         (data) => {
           this.weather = data;
           this.notFound = false;
+          this.badNetwork = false;
         },
         (error) => {
           //changed slightely by Pawel
+
           console.error(error);
           this.weather = null;
-          if (this.networkStatus) {
+          if (!this.networkStatus) {
+            this.badNetwork = true;
+          } else {
             this.notFound = true;
           }
         }
