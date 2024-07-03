@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { WeatherService } from '../services/weather.service';
 
+//added by Pawel
+import { fromEvent, merge, of, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 @Component({
   selector: 'app-weather',
   templateUrl: './weather.page.html',
@@ -12,6 +16,10 @@ export class WeatherPage {
   city: string = '';
   notFound: boolean = false;
 
+  //added by Pawel
+  networkStatus: boolean = true;
+  networkStatus$: Subscription = Subscription.EMPTY;
+
   constructor(
     private weatherService: WeatherService,
     private route: ActivatedRoute
@@ -20,6 +28,21 @@ export class WeatherPage {
   ionViewWillEnter() {
     this.city = this.route.snapshot.paramMap.get('city') as string;
     this.getWeather();
+  }
+
+  //added by Pawel
+  checkNetworkStatus() {
+    this.networkStatus = navigator.onLine;
+    this.networkStatus$ = merge(
+      of(null),
+      fromEvent(window, 'online'),
+      fromEvent(window, 'offline')
+    )
+      .pipe(map(() => navigator.onLine))
+      .subscribe((status) => {
+        console.log('status', status);
+        this.networkStatus = status;
+      });
   }
 
   getWeatherIcon() {
@@ -48,9 +71,12 @@ export class WeatherPage {
           this.notFound = false;
         },
         (error) => {
+          //changed slightely by Pawel
           console.error(error);
           this.weather = null;
-          this.notFound = true;
+          if (this.networkStatus) {
+            this.notFound = true;
+          }
         }
       );
     }
