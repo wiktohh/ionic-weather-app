@@ -10,9 +10,11 @@
 <ion-content padding>
   <ion-card *ngIf="weather" class="weather-card">
     <ion-card-header>
-      <ion-card-title>{{ weather.name }}</ion-card-title>
+      <ion-card-title style="text-align: center"
+        >{{ weather.name }}</ion-card-title
+      >
     </ion-card-header>
-    <ion-icon
+    <div
       class="weather-icon"
       [ngSwitch]="weather.weather[0].main"
       style="color: black"
@@ -26,7 +28,7 @@
         name="thunderstorm-outline"
       ></ion-icon>
       <ion-icon *ngSwitchDefault name="partly-sunny-outline"></ion-icon>
-    </ion-icon>
+    </div>
     <ion-card-content>
       <ion-grid>
         <ion-row>
