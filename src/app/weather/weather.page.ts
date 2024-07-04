@@ -67,29 +67,31 @@ export class WeatherPage {
 
   async getWeather() {
     this.getNetworkStatus(); //sprawdz status sieci
-    await this.delay(300);
-    if (this.networkStatus) {
-      //jesli jest polaczenie probuje pobrac pogode
-      if (this.city) {
-        this.weatherService.getWeather(this.city).subscribe(
-          (data) => {
-            this.weather = data;
-            this.notFound = false;
-            this.badNetwork = false;
-          },
-          (error) => {
-            //jesli nie znajduje miasta wyswietli komunikat notfound
-            console.error(error);
-            this.weather = null;
-            this.notFound = true;
-          }
-        );
+    //await this.delay(300);
+    setTimeout(() => {
+      if (this.networkStatus) {
+        //jesli jest polaczenie probuje pobrac pogode
+        if (this.city) {
+          this.weatherService.getWeather(this.city).subscribe(
+            (data) => {
+              this.weather = data;
+              this.notFound = false;
+              this.badNetwork = false;
+            },
+            (error) => {
+              //jesli nie znajduje miasta wyswietli komunikat notfound
+              console.error(error);
+              this.weather = null;
+              this.notFound = true;
+            }
+          );
+        }
+      } else {
+        //jesli jest brak sieci wyswietli komunikat offline
+        this.badNetwork = true;
+        this.weather = null;
+        this.notFound = false;
       }
-    } else {
-      //jesli jest brak sieci wyswietli komunikat offline
-      this.badNetwork = true;
-      this.weather = null;
-      this.notFound = false;
-    }
+    }, 300);
   }
 }
