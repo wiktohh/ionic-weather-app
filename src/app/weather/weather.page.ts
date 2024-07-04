@@ -24,7 +24,6 @@ export class WeatherPage {
   notFound: boolean = false;
 
   //added by Pawel
-  //networkStatus: boolean = true;
   networkStatus$: Subscription = Subscription.EMPTY;
   networkStatus: boolean = true;
   badNetwork: boolean = false;
@@ -40,24 +39,14 @@ export class WeatherPage {
   }
 
   //added by Pawel
-  checkNetworkStatus() {
-    this.networkStatus = navigator.onLine;
-    this.networkStatus$ = merge(
-      of(null),
-      fromEvent(window, 'online'),
-      fromEvent(window, 'offline')
-    )
-      .pipe(map(() => navigator.onLine))
-      .subscribe((status) => {
-        console.log('status', status);
-        this.networkStatus = status;
-      });
-  }
-
   getNetworkStatus = async () => {
     this.networkStatus = (await Network.getStatus()).connected;
   };
 
+  delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+  //
   getWeatherIcon() {
     if (this.weather && this.weather.weather) {
       switch (this.weather.weather[0].main.toLowerCase()) {
@@ -75,15 +64,12 @@ export class WeatherPage {
     }
     return 'partly-sunny-outline';
   }
-  delay(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
 
   async getWeather() {
-    //this.checkNetworkStatus();
-    this.getNetworkStatus();
-    await this.delay(1000);
+    this.getNetworkStatus(); //sprawdz status sieci
+    await this.delay(300);
     if (this.networkStatus) {
+      //jesli jest polaczenie probuje pobrac pogode
       if (this.city) {
         this.weatherService.getWeather(this.city).subscribe(
           (data) => {
@@ -92,6 +78,7 @@ export class WeatherPage {
             this.badNetwork = false;
           },
           (error) => {
+            //jesli nie znajduje miasta wyswietli komunikat notfound
             console.error(error);
             this.weather = null;
             this.notFound = true;
@@ -99,6 +86,7 @@ export class WeatherPage {
         );
       }
     } else {
+      //jesli jest brak sieci wyswietli komunikat offline
       this.badNetwork = true;
       this.weather = null;
       this.notFound = false;
